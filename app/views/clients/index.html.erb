@@ -1,0 +1,12 @@
+<p>...Find me on app/views/clients/index...</p>
+
+<h3>Clients List</h3>
+<ol>
+  <% @clients.each do |client| %>
+    <li>
+      <p><%= client.last_name%></p>
+    </li>
+  <% end %>
+</ol>
+
+<%= link_to "New Client", root_path, class:"btn btn-primary" %>
