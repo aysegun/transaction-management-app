@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  resources :clients
+  resources :clients do
+    resources :transactions, only: %i[new create update destroy]
+  end
 
   root 'clients#new'
 end

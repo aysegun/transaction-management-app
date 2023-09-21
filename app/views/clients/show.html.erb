@@ -1,3 +1,5 @@
 <p>...Find me on app/views/clients/show</p>
 <h3>Client Details</h3>
 <%= @client.first_name %>
+
+<%= link_to "Create a transaction", new_client_transaction_path(@client)%>
