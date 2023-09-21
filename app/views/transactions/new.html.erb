@@ -1,2 +1,38 @@
-  <p>...Find me on app/views/transactions/new...</p>
-  <h3>New Transaction</h3>
+<p>...Find me on app/views/transactions/new...</p>
+<h3>New Transaction</h3>
+<%= form_with model: (@expense || @payment), url: new_client_transaction_path, method: :post do |form| %>
+  <div class="field">
+    <%= form.label :transaction_type %>
+    <%= form.select :transaction_type, ['expense', 'payment'], include_blank: true, class: 'form-control', id: 'transaction_type_select' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :amount %>
+    <%= form.number_field :amount, step: '0.01', class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description, class: 'form-control' %>
+  </div>
+
+  <div id="expense_fields" style="display: none;">
+    <div class="field">
+      <%= form.label :expense_specific_field %>
+      <%= form.text_field :expense_specific_field, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div id="payment_fields" style="display: none;">
+    <div class="field">
+      <%= form.label :payment_specific_field %>
+      <%= form.text_field :payment_specific_field, class: 'form-control' %>
+    </div>
+  </div>
+
+  <%= form.hidden_field :client_id, value: @client %>
+
+  <div class="actions">
+    <%= form.submit 'Create Transaction', class: 'btn btn-primary' %>
+  </div>
+<% end %>
