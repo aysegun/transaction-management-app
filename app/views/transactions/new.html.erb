@@ -16,21 +16,11 @@
     <%= form.text_area :description, class: 'form-control' %>
   </div>
 
-  <div id="expense_fields" style="display: none;">
-    <div class="field">
-      <%= form.label :expense_specific_field %>
-      <%= form.text_field :expense_specific_field, class: 'form-control' %>
-    </div>
+  <div class="field">
+    <%= form.label :date %>
+    <%= form.text_area :date, class: 'form-control' %>
   </div>
 
-  <div id="payment_fields" style="display: none;">
-    <div class="field">
-      <%= form.label :payment_specific_field %>
-      <%= form.text_field :payment_specific_field, class: 'form-control' %>
-    </div>
-  </div>
-
-  <%= form.hidden_field :client_id, value: @client %>
 
   <div class="actions">
     <%= form.submit 'Create Transaction', class: 'btn btn-primary' %>

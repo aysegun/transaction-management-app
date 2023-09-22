@@ -9,6 +9,8 @@ class ClientsController < ApplicationController
 
   def show
     @client = Client.find(params[:id])
+    @transactions = @client.expenses + @client.payments
+    @transactions.sort_by(&:created_at).reverse!
   end
 
   def create

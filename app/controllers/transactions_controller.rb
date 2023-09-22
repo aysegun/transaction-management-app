@@ -1,5 +1,17 @@
 class TransactionsController < ApplicationController
 
+  #show method is not working
+
+  def show
+    @expense = Expense.find(params[:client_id])
+    @payment = Payment.find(params[:client_id])
+  end
+
+  def index
+    @client = Client.find(params[:client_id])
+    @transactions = @client.expenses + @client.payments
+  end
+
   def create_expense
     client = Client.find(params[:client_id])
     amount = params[:amount]
