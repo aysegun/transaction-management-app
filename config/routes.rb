@@ -8,4 +8,7 @@ Rails.application.routes.draw do
   end
 
   root 'clients#new'
+
+  post 'clients/:id/transactions/new', to: 'transactions#create_expense'
+  post 'clients/:id/transactions/new', to: 'transactions#create_payment'
 end
