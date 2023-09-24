@@ -4,7 +4,7 @@
 <ol>
   <% @clients.each do |client| %>
     <li>
-      <p><%= client.last_name%></p>
+      <p><%= link_to client.last_name, client%></p>
     </li>
   <% end %>
 </ol>
