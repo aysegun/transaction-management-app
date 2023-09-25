@@ -5,10 +5,9 @@ Rails.application.routes.draw do
   # root "articles#index"
   resources :clients do
     resources :transactions
+    post 'transactions/create_expense', to: 'transactions#create_expense', as: :create_expense
+    post 'transactions/create_payment', to: 'transactions#create_payment', as: :create_payment
   end
 
   root 'clients#new'
-
-  post 'clients/:id/transactions/new', to: 'transactions#create_expense'
-  post 'clients/:id/transactions/new', to: 'transactions#create_payment'
 end

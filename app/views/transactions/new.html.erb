@@ -1,6 +1,6 @@
 <p>...Find me on app/views/transactions/new...</p>
 <h3>New Transaction</h3>
-<%= form_with(model: (@expense || @payment), url: new_client_transaction_path, method: :post) do |form| %>
+<%= form_with(model: (@expense || @payment), url: @transaction_type == 'expense' ? client_create_expense_path : client_create_payment_path, method: :post) do |form| %>
   <div class="field">
     <%= form.label :transaction_type %>
     <%= form.select :transaction_type, ['expense', 'payment'], include_blank: true, class: 'form-control', id: 'transaction_type_select' %>
