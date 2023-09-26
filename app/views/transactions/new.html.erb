@@ -1,9 +1,9 @@
 <p>...Find me on app/views/transactions/new...</p>
 <h3>New Transaction</h3>
-<%= form_with(model: (@expense || @payment), url: @transaction_type == 'expense' ? client_create_expense_path : client_create_payment_path, method: :post) do |form| %>
+<%= form_with(model: (@expense || @payment), url: @transaction_type == 'expense' ? client_create_expense_path : client_create_payment_path, method: :post, id: 'transaction-form') do |form| %>
   <div class="field">
     <%= form.label :transaction_type %>
-    <%= form.select :transaction_type, ['expense', 'payment'], include_blank: true, class: 'form-control', id: 'transaction_type_select' %>
+    <%= form.select :transaction_type, ['expense', 'payment'], include_blank: true, class: 'form-control', id: 'transaction_type_select', data: { transaction_type: '' } %>
   </div>
 
   <div class="field">
@@ -21,8 +21,31 @@
     <%= form.date_select :date, class: 'form-control' %>
   </div>
 
-
+  <%= form.hidden_field :transaction_type, id: 'transaction_type_hidden' %>
   <div class="actions">
-    <%= form.submit 'Create Transaction', class: 'btn btn-primary' %>
+    <%= form.submit 'Create Transaction', class: 'btn btn-primary', id: 'submit-button' %>
   </div>
 <% end %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('transaction-form');
+  const transactionTypeSelect = document.getElementById('transaction_type_select');
+  const transactionTypeHidden = document.getElementById('transaction_type_hidden');
+
+  transactionTypeSelect.addEventListener('change', function() {
+    const selectedTransactionType = transactionTypeSelect.value;
+    transactionTypeHidden.value = selectedTransactionType;
+
+    if (selectedTransactionType === 'expense') {
+      form.action = '<%= client_create_expense_path %>';
+    } else if (selectedTransactionType === 'payment') {
+      form.action = '<%= client_create_payment_path %>';
+    } else {
+      alert('Invalid transaction type selected.');
+    }
+  });
+});
+
+
+</script>
