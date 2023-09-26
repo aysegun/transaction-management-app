@@ -21,7 +21,7 @@ class TransactionsController < ApplicationController
       Expense.create(client: client, amount: amount)
     end
 
-    render json: { message: 'Expense created successfully' }, status: :ok
+    redirect_to client_path(client)
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'User or client not found' }, status: :not_found
   rescue ActiveRecord::RecordInvalid => e
@@ -37,7 +37,7 @@ class TransactionsController < ApplicationController
       Payment.create(client: client, amount: amount)
     end
 
-    render json: { message: 'Payment created successfully' }, status: :ok
+    redirect_to client_path(client)
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'User or client not found' }, status: :not_found
   rescue ActiveRecord::RecordInvalid => e

@@ -18,7 +18,7 @@
       <tr>
         <td><%= transaction.amount %></td>
         <td><%= transaction.description %></td>
-        <td><%= transaction.date %></td>
+        <td><%= transaction.date.try(:strftime, '%Y-%m-%d') %></td>
         <td><%= transaction.class.name %></td>
       </tr>
     <% end %>
