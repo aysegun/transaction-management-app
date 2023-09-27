@@ -1,7 +1,12 @@
 class TransactionsController < ApplicationController
 
-  #show method is not working
+  def new
+    @client = Client.find(params[:client_id])
+    @expense = Expense.new
+    @payment = Payment.new
+  end
 
+  #show method is not working
   def show
     @expense = Expense.find(params[:client_id])
     @payment = Payment.find(params[:client_id])
