@@ -2,8 +2,15 @@ class TransactionsController < ApplicationController
 
   def new
     @client = Client.find(params[:client_id])
-    @expense = Expense.new
-    @payment = Payment.new
+    if params[:transaction_type] == 'expense'
+      @expense = Expense.new
+      @expense.amount = 0 # Set a default value for amount
+      @expense.date = Date.current # Set a default value for date
+    else
+      @payment = Payment.new
+      @payment.amount = 0 # Set a default value for amount
+      @payment.date = Date.current # Set a default value for date
+    end
   end
 
   #show method is not working
@@ -23,7 +30,7 @@ class TransactionsController < ApplicationController
 
     ActiveRecord::Base.transaction do
       client.credit(amount)
-      Expense.create(client: client, amount: amount)
+      Expense.create!(client: client, amount: amount)
     end
 
     redirect_to client_path(client)
@@ -39,7 +46,7 @@ class TransactionsController < ApplicationController
 
     ActiveRecord::Base.transaction do
       client.debit(amount)
-      Payment.create(client: client, amount: amount)
+      Payment.create!(client: client, amount: amount)
     end
 
     redirect_to client_path(client)

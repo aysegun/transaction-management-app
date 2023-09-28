@@ -1,31 +1,32 @@
+
+
 <p>...Find me on app/views/transactions/new...</p>
 <h3>New Transaction</h3>
 
-
-<%= form_with(model: (@expense || @payment), url: @transaction_type == 'expense' ? client_create_expense_path : client_create_payment_path, method: :post, id: 'transaction-form') do |form| %>
+<%= form_with(model: (@expense || @payment), url: @transaction_type == 'expense' ? client_create_expense_path : client_create_payment_path, method: :post, id: 'transaction-form') do |f| %>
   <div class="field">
-    <%= form.label :transaction_type %>
-    <%= form.select :transaction_type, ['expense', 'payment'], include_blank: true, class: 'form-control', id: 'transaction_type_select', data: { transaction_type: '' } %>
+    <%= f.label :transaction_type, for: 'transaction_type_select'%>
+    <%= f.select :transaction_type, ['expense', 'payment'], include_blank: true, class: 'form-control', id: 'transaction_type_select', data: { transaction_type: '' } %>
   </div>
 
   <div class="field">
-    <%= form.label :amount %>
-    <%= form.number_field :amount, step: '0.01', class: 'form-control' %>
+    <%= f.label :amount, for: 'expense_amount' %>
+    <%= f.number_field :amount, step: '0.01', class: 'form-control', id: 'expense_amount' %>
   </div>
 
   <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description, class: 'form-control' %>
+    <%= f.label :description, for: 'expense_description' %>
+    <%= f.text_area :description, class: 'form-control', id: 'expense_description' %>
   </div>
 
   <div class="field">
-    <%= form.label :date %>
-    <%= form.date_select :date, class: 'form-control' %>
+    <%= f.label :date, for: 'expense_date'%>
+    <%= f.date_select :date, class: 'form-control', id: 'expense_date' %>
   </div>
 
-  <%= form.hidden_field :transaction_type, id: 'transaction_type_hidden' %>
+  <%= f.hidden_field :transaction_type, id: 'transaction_type_hidden' %>
   <div class="actions">
-    <%= form.submit 'Create Transaction', class: 'btn btn-primary', id: 'submit-button' %>
+    <%= f.submit 'Create Transaction', class: 'btn btn-primary', id: 'submit-button' %>
   </div>
 <% end %>
 
@@ -36,6 +37,7 @@
   const transactionTypeHidden = document.getElementById('transaction_type_hidden');
 
   transactionTypeSelect.addEventListener('change', function() {
+    console.log('Transaction type selected:', transactionTypeSelect.value);
     const selectedTransactionType = transactionTypeSelect.value;
     transactionTypeHidden.value = selectedTransactionType;
 
