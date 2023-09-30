@@ -30,24 +30,27 @@
   </div>
 <% end %>
 
+
+
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-  const form = document.getElementById('transaction-form');
-  const transactionTypeSelect = document.getElementById('transaction_type_select');
-  const transactionTypeHidden = document.getElementById('transaction_type_hidden');
+    const form = document.getElementById('transaction-form');
+    const transactionTypeSelect = document.getElementById('transaction_type_select');
+    const transactionTypeHidden = document.getElementById('transaction_type_hidden');
 
-  transactionTypeSelect.addEventListener('change', function() {
-    console.log('Transaction type selected:', transactionTypeSelect.value);
-    const selectedTransactionType = transactionTypeSelect.value;
-    transactionTypeHidden.value = selectedTransactionType;
+    if (form && transactionTypeSelect) {
+      transactionTypeSelect.addEventListener('change', function() {
+        const selectedTransactionType = transactionTypeSelect.value;
+        transactionTypeHidden.value = selectedTransactionType;
 
-    if (selectedTransactionType === 'expense') {
-      form.action = '<%= client_create_expense_path %>';
-    } else if (selectedTransactionType === 'payment') {
-      form.action = '<%= client_create_payment_path %>';
-    } else {
-      alert('Invalid transaction type selected.');
+        if (selectedTransactionType === 'expense') {
+          form.action = '<%= client_create_expense_path %>';
+        } else if (selectedTransactionType === 'payment') {
+          form.action = '<%= client_create_payment_path %>';
+        } else {
+          alert('Invalid transaction type selected.');
+        }
+      });
     }
-  });
   });
 </script>

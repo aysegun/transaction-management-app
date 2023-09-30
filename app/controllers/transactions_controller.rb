@@ -55,4 +55,26 @@ class TransactionsController < ApplicationController
   rescue ActiveRecord::RecordInvalid => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
+
+  def destroy
+    transaction_type = params[:transaction_type]
+    transaction_id = params[:id]
+
+    begin
+      transaction = transaction_type == 'expense' ? Expense.find(transaction_id) : Payment.find(transaction_id)
+      client = transaction.client
+
+      ActiveRecord::Base.transaction do
+        client.credit(transaction.amount) if transaction_type == 'expense'
+        client.debit(transaction.amount) if transaction_type == 'payment'
+        transaction.destroy
+      end
+
+      redirect_to client_path(client)
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: 'Transaction not found' }, status: :not_found
+    rescue ActiveRecord::RecordInvalid => e
+      render json: { error: e.message }, status: :unprocessable_entity
+    end
+  end
 end
