@@ -13,10 +13,19 @@ class TransactionsController < ApplicationController
     end
   end
 
-  #show method is not working
   def show
-    @expense = Expense.find(params[:client_id])
-    @payment = Payment.find(params[:client_id])
+    @client = Client.find(params[:client_id])
+    transaction_type = params[:transaction_type]
+
+    if transaction_type == 'expense'
+      @transaction = Expense.find(params[:id])
+    elsif transaction_type == 'payment'
+      @transaction = Payment.find(params[:id])
+    else
+      render json: { error: 'Invalid transaction type' }, status: :unprocessable_entity
+    end
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Transaction not found' }, status: :not_found
   end
 
   def index
