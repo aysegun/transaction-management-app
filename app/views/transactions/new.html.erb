@@ -1,9 +1,8 @@
 
 
-<p>...Find me on app/views/transactions/new...</p>
 <h3>New Transaction</h3>
 
-<%= form_with(model: (@expense || @payment), url: @transaction_type == 'expense' ? client_create_expense_path : client_create_payment_path, method: :post, id: 'transaction-form') do |f| %>
+<%= form_with(model: (@expense || @payment), url: @transaction_type == 'expense' ? client_create_expense_path(client_id: @client.id) : client_create_payment_path(client_id: @client.id), method: :post, id: 'transaction-form') do |f| %>
   <div class="field">
     <%= f.label :transaction_type, for: 'transaction_type_select'%>
     <%= f.select :transaction_type, ['expense', 'payment'], include_blank: true, class: 'form-control', id: 'transaction_type_select', data: { transaction_type: '' } %>
@@ -30,8 +29,6 @@
   </div>
 <% end %>
 
-
-
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('transaction-form');
@@ -44,9 +41,9 @@
         transactionTypeHidden.value = selectedTransactionType;
 
         if (selectedTransactionType === 'expense') {
-          form.action = '<%= client_create_expense_path %>';
+          form.action = '<%= client_create_expense_path(client_id: @client.id) %>';
         } else if (selectedTransactionType === 'payment') {
-          form.action = '<%= client_create_payment_path %>';
+          form.action = '<%= client_create_payment_path(client_id: @client.id) %>';
         } else {
           alert('Invalid transaction type selected.');
         }
