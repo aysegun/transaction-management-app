@@ -3,6 +3,8 @@ require 'bigdecimal'
 class Client < ApplicationRecord
   has_many :expenses
   has_many :payments
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 
   attribute :balance, :decimal, precision: 10, scale: 2, default: 0.0
 
