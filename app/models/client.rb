@@ -1,15 +1,18 @@
+
 require 'bigdecimal'
 
 class Client < ApplicationRecord
   has_many :expenses
   has_many :payments
+
   validates :first_name, presence: true
   validates :last_name, presence: true
 
-  attribute :balance, :decimal, precision: 10, scale: 2, default: 0.0
+  before_create :set_default_balance
 
   def credit(amount)
-    self.balance += BigDecimal(amount.to_s) if valid_numeric?(amount)
+    amount_as_decimal = BigDecimal(amount.to_s) if valid_numeric?(amount)
+    self.balance += amount_as_decimal if amount_as_decimal
     save
   end
 
@@ -22,13 +25,6 @@ class Client < ApplicationRecord
       errors.add(:balance, "Insufficient balance")
       false
     end
-    # if self.balance >= BigDecimal(amount.to_s) && valid_numeric?(amount)
-    #   self.balance -= BigDecimal(amount.to_s)
-    #   save
-    # else
-    #   errors.add(:balance, "Insufficient balance")
-    #   false
-    # end
   end
 
   private
@@ -38,5 +34,9 @@ class Client < ApplicationRecord
     true
   rescue ArgumentError, TypeError
     false
+  end
+
+  def set_default_balance
+    self.balance ||= BigDecimal('0.0')
   end
 end
