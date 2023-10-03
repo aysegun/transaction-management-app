@@ -4,12 +4,12 @@ class TransactionsController < ApplicationController
     @client = Client.find(params[:client_id])
     if params[:transaction_type] == 'expense'
       @expense = Expense.new
-      @expense.amount = 0 # Set a default value for amount
-      @expense.date = Date.current # Set a default value for date
+      # @expense.amount = 0 # Set a default value for amount
+      # @expense.date = Date.current # Set a default value for date
     else
       @payment = Payment.new
-      @payment.amount = 0 # Set a default value for amount
-      @payment.date = Date.current # Set a default value for date
+      # @payment.amount = 0 # Set a default value for amount
+      # @payment.date = Date.current # Set a default value for date
     end
   end
 

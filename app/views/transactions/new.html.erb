@@ -5,40 +5,38 @@
 <%= form_with(model: (@expense || @payment), url: @transaction_type == 'expense' ? client_create_expense_path(client_id: @client.id) : client_create_payment_path(client_id: @client.id), method: :post, id: 'transaction-form') do |f| %>
   <div class="field">
     <%= f.label :transaction_type, for: 'transaction_type_select'%>
-    <%= f.select :transaction_type, ['expense', 'payment'], include_blank: true, class: 'form-control', id: 'transaction_type_select', data: { transaction_type: '' } %>
+    <%= f.select :transaction_type, [['Expense','expense'], ['Payment', 'payment']], include_blank: true, class: 'form-control', id: 'transaction_type_select', data: { transaction_type: '' } %>
   </div>
 
   <div class="field">
-    <%= f.label :amount, for: 'expense_amount' %>
-    <%= f.number_field :amount, step: '0.01', class: 'form-control', id: 'expense_amount' %>
+    <%= f.label :amount, for: 'transaction_amount' %>
+    <%= f.number_field :amount, step: '0.01', class: 'form-control', id: 'transaction_amount' %>
   </div>
 
   <div class="field">
-    <%= f.label :description, for: 'expense_description' %>
-    <%= f.text_area :description, class: 'form-control', id: 'expense_description' %>
+    <%= f.label :description, for: 'transaction_description' %>
+    <%= f.text_area :description, class: 'form-control', id: 'transaction_description' %>
   </div>
 
   <div class="field">
-    <%= f.label :date, for: 'expense_date'%>
-    <%= f.date_select :date, class: 'form-control', id: 'expense_date' %>
+    <%= f.label :date, for: 'transaction_date'%>
+    <%= f.date_select :date, class: 'form-control', id: 'transaction_date' %>
   </div>
 
-  <%= f.hidden_field :transaction_type, id: 'transaction_type_hidden' %>
   <div class="actions">
     <%= f.submit 'Create Transaction', class: 'btn btn-primary', id: 'submit-button' %>
   </div>
 <% end %>
 
+
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('transaction-form');
     const transactionTypeSelect = document.getElementById('transaction_type_select');
-    const transactionTypeHidden = document.getElementById('transaction_type_hidden');
 
     if (form && transactionTypeSelect) {
       transactionTypeSelect.addEventListener('change', function() {
         const selectedTransactionType = transactionTypeSelect.value;
-        transactionTypeHidden.value = selectedTransactionType;
 
         if (selectedTransactionType === 'expense') {
           form.action = '<%= client_create_expense_path(client_id: @client.id) %>';
