@@ -2,8 +2,12 @@
 
 <h3>New Transaction</h3>
 
-<%= form_with(model: (@expense || @payment), url: @transaction_type == 'expense' ? client_create_expense_path(client_id: @client.id) : client_create_payment_path(client_id: @client.id), method: :post, id: 'transaction-form') do |f| %>
+<%= form_with(model: (@expense || @payment), url: @transaction_type == 'expense' ? client_create_expense_path(client_id: @client.id) : client_create_payment_path(client_id: @client.id), method: :post, id: 'transaction-form', local: true) do |f| %>
   <div class="field">
+    <%# <%= f.check_box :expense %> %>
+    <%# <%= f.label :expense, "expense" %> %>
+    <%# <%= f.check_box :payment %> %>
+    <%# <%= f.label :payment, "payment" %> %>
     <%= f.label :transaction_type, for: 'transaction_type_select'%>
     <%= f.select :transaction_type, [['Expense','expense'], ['Payment', 'payment']], include_blank: true, class: 'form-control', id: 'transaction_type_select', data: { transaction_type: '' } %>
   </div>
